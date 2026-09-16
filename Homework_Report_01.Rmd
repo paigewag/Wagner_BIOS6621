@@ -1,0 +1,42 @@
+---
+title: "Homework01"
+author: "Paige Wagner"
+date: "2026-09-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+```{r}
+data <- read.csv("DataRaw/lead-iq-01.csv")
+library(ggplot2)
+
+ggplot(data, aes(x = Smelter, y = IQ)) +
+  geom_boxplot() +
+  labs(
+    x = "Location status",
+    y = "IQ",
+    title = "IQ Levels by Location Status"
+  )
+```
+
+This graph is comparing the distribution of IQ levels by location status. The dark line inside the box represents the median IQ, while the box represents the interquartile range of IQ's. The extending lines show the spread of IQ values in each location group.
+```{r}
+library(dplyr)
+library(knitr)
+
+table_data <- data %>%
+  group_by(Smelter) %>%
+  summarise(
+    Mean_IQ = mean(IQ, na.rm=TRUE)
+)
+
+kable(table_data, digits = 2)
+```
+This table is comparing the average IQ in each location group. The average IQ in the "Far" group is  `r round(mean(data$IQ[data$Smelter == "Far"], na.rm = TRUE), 2)` and the average IQ in the "Near" group is  `r round(mean(data$IQ[data$Smelter == "Near"], na.rm = TRUE), 2)`.
