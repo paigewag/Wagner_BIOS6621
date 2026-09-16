@@ -12,9 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ## R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
 ```{r}
 data <- read.csv("DataRaw/lead-iq-01.csv")
+data$IQ[data$IQ == 999] <- 99
+```
+
+```{r}
 library(ggplot2)
 
 ggplot(data, aes(x = Smelter, y = IQ)) +
