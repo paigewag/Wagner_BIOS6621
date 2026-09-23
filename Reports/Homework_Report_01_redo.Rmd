@@ -32,7 +32,7 @@ library(table1)
 
 ```{r}
 data <- read.csv("../DataRaw/lead-iq-01.csv")
-
+data$IQ[data$IQ == 999] <- 99
 ```
 
 ```{r}
