@@ -31,7 +31,7 @@ library(table1)
 *Figure 1*
 
 ```{r}
-data <- read.csv("DataRaw/lead-iq-01.csv")
+data <- read.csv("../DataRaw/lead-iq-01.csv")
 
 ```
 
