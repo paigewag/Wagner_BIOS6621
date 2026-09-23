@@ -1,0 +1,75 @@
+---
+title: 'Homework Report'
+author: 'Paige Wagner'
+
+output:
+  html_document:
+    highlight: espresso
+    number_sections: yes
+    theme: yeti
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+---
+
+```{r, echo=FALSE, out.width='70%', fig.show='hold'}
+logo <- system.file("figures", "sph_cida_wm_blk.png", package="CIDAtools")
+knitr::include_graphics(logo)
+```
+
+------------------------------------------------------------------------
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(table1)
+```
+
+
+*Figure 1*
+
+```{r}
+data <- read.csv("DataRaw/lead-iq-01.csv")
+
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x = Smelter, y = IQ)) +
+  geom_boxplot() +
+  labs(
+    x = "Location status",
+    y = "IQ",
+    title = "IQ Levels by Location Status"
+  )
+```
+
+This graph is comparing the distribution of IQ levels by location status. The dark line inside the box represents the median IQ, while the box represents the interquartile range of IQ's. The extending lines show the spread of IQ values in each location group. 
+
+*Table 1*
+
+```{r}
+library(dplyr)
+
+table_data <- data %>%
+  group_by(Smelter) %>%
+  summarise(
+    Mean_IQ = mean(IQ, na.rm=TRUE)
+)
+
+kable(table_data, digits = 2)
+```
+
+This table is comparing the average IQ in each location group. The average IQ in the "Far" group is `r round(mean(data$IQ[data$Smelter == "Far"], na.rm = TRUE), 2)` and the average IQ in the "Near" group is `r round(mean(data$IQ[data$Smelter == "Near"], na.rm = TRUE), 2)`. 
+
+
+<!-- footer -->
+
+------------------------------------------------------------------------
+
+```{r, echo=FALSE, out.width='70%', fig.show='hold'}
+knitr::include_graphics(logo)
+```
