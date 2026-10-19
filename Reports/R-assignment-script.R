@@ -374,4 +374,6 @@ cbind(x, lab)
 
 # Ex 7: Using the object xy.mat and not making any new assignments (don't use <-),
 #       graph y2 versus x, omitting the 4th row, and with axis labels "y2" and "x"
-
+plot(xy.mat[-4, 1:3],
+     xlab = "x",
+     ylab = "y2")
