@@ -349,7 +349,8 @@ pnorm(18, mean=10, sd=4, lower.tail=FALSE)
 qnorm(.975, mean=10, sd=4)
 x= seq(-2, 22, by=0.1)
 y= dnorm(x, mean(x), sd(x))
-plot(x,y)
+plot(x,y) # what would you need to edit to make this a smooth line? 
+
 # Ex 5: Generate a sample of 10000 values from a Gamma distribution with mean 10 and sd 4
 #       Verify empirically that your sample mean and sd are close to 10 and 4
 #       This is very useful, when working with a new distn in R (or SAS or ...) it's good to do this
@@ -367,10 +368,14 @@ x[c(3:7)]-2
 # This will list elements 3 to 7 of x with 2 being subtracted from each element.
 #xy.mat[14,]
 # This will return the 14th row of the xy matrix.
+# did you run it? What actually happens? 
 xy.mat[c(2:4)]
 # This will return the columns 2 to 4 of the xy matrix.
+# Are you sure? 
+
 cbind(x, lab)
 # This will make a new matrix with the first column(s) being from x and the following column(s) from lab.
+# what happens to the values when you do this?
 
 # Ex 7: Using the object xy.mat and not making any new assignments (don't use <-),
 #       graph y2 versus x, omitting the 4th row, and with axis labels "y2" and "x"
