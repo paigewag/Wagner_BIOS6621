@@ -1,0 +1,157 @@
+---
+title: Report
+author: Paige Wagner
+ 
+output:
+  html_document:
+    highlight: espresso
+    number_sections: yes
+    theme: yeti
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+---
+
+```{r, echo=FALSE, out.width='70%', fig.show='hold'}
+logo <- system.file("figures", "sph_cida_wm_blk.png", package="CIDAtools")
+knitr::include_graphics(logo)
+```
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(table1)
+library(gtsummary)
+```
+
+
+```{r, echo=FALSE}
+data <- read.csv("C:/Users/paige/OneDrive/Desktop/CSPH F26/BIOS 6621/Wagner_BIOS6621/DataRaw/BIOS6621_Guth_data.csv")
+
+data_values <- read.csv("C:/Users/paige/OneDrive/Desktop/CSPH F26/BIOS 6621/Wagner_BIOS6621/DataRaw/BIOS6621_Guth_data_values.csv")
+```
+
+*Figure 1*
+<details><summary> Full Dataset Table Summary </summary>
+```{r, echo=FALSE}
+data$P1SprBates_CommScore <- as.numeric(data$P1SprBates_CommScore)
+data$P2FallRamos_CommScore <- as.numeric(data$P2FallRamos_CommScore)
+data$P2FallRamos_OralPresScore <- as.numeric(data$P2FallRamos_OralPresScore)
+data$P2SpringSnelling_CommScore <- as.numeric(data$P2SpringSnelling_CommScore)
+data |>
+  tbl_summary(
+    type = list(
+      P1SprBates_CommScore ~ "continuous",
+      P2FallRamos_CommScore ~ "continuous",
+      P2FallRamos_OralPresScore ~ "continuous",
+      P2SpringSnelling_CommScore ~ "continuous"
+    ),
+    statistic = list(
+      all_continuous() ~ "{min},{max}, ({mean})",
+      all_categorical() ~ "{n}, ({p}%)"
+    ),
+    missing = "always",
+    missing_stat = "{N_miss} ({p_miss}%)"
+  )
+```
+</details>
+
+Acronyms and Definitions:
+
+  URM: Underrepresented in medicine
+  
+    Two classifications (generalized):
+      Non-White (URM)
+      Non-White, Non-Asian (URM_AAMC)
+  OSCE: Objective Structured Clinical Examination
+  
+    A type of performance-based test to evaluate clinical competence
+    A percentage from 0 to 100
+    Open to possible grading bias
+  USMLE: United States Medical Licensing Examination
+  
+    Scored from 0 to 100 with a minimum of 194 to pass Step 1 and 209 to pass Step 2
+    
+# Project Summary
+The goal of this project to identify if there is any bias associated with students that are underrepresented in medicine (URM) and their OSCE scores.
+
+Since we want to identify if there is bias, it would be more valuable to look at all URM students rather than URM_AAMC students to better isolate if there is any bias towards this group of students.
+
+We are also going to summarize the average USMLE scores based on the URM classification and the average of the clerkship final grades based on the URM classification.
+
+# Data Irregularities
+
+OSCE Data:
+  
+  When looking at the different cases, the Bates, Ramos, and Snelling cases are categorical with scores only landing on multiples of 5. However, the Payne and Hyde cases are both scored on a continuous scale. To fix this, we will treat all of the different OSCE cases as continuous. 
+
+
+<details><summary> Summaries by OSCE scores, clerkship scores, and USMLE scores </summary>
+```{r}
+
+osce_data <- data %>%
+  select(ResearchID, gender, URM, P1SprBates_CommScore, P1SprBates_PhysExamScore, P2FallRamos_CommScore, P2FallRamos_PhysExamScore, P2FallPayne_CommScore, P2FallPayne_PhysExamScore, P2SpringHyde_CommScore, P2SpringHyde_PhysExamScore, P2SpringSnelling_CommScore, P2SpringSnelling_PhysExamScore)
+clerk_data <- data %>%
+  select(ResearchID, gender, URM, AAC_Final_Course_Grade, CPC_Final_Course_Grade, EC_Final_Course_Grade, HAC_Final_Course_Grade, ICAC_Final_Course_Grade, MSK_Final_Course_Grade, NC_Final_Course_Grade, OBG_Final_Course_Grade, OPC_Final_Course_Grade, PC_Final_Course_Grade, RCC_Final_Course_Grade)
+usmle_data <- data%>%
+  select(ResearchID, gender, URM, STEP1_ExamScore, STEP2CK_ExamScore)
+
+osce_data |>
+    tbl_summary(type = list(
+      P1SprBates_CommScore ~ "continuous",
+      P2FallRamos_CommScore ~ "continuous",
+      P2SpringSnelling_CommScore ~ "continuous"
+    ))
+tbl_summary(clerk_data)
+tbl_summary(usmle_data)
+```
+</details>
+
+When we are looking at the OSCE scores, we are only going to compare the CommScores and the PhysExamScores as these are the scores that may hold bias.
+
+For the clerkship scores, we will only look at the final scores rather than the clinical scores.
+
+For the USMLE scores, we will only look at the final scores.
+
+# Missing Data
+
+OSCE Data:
+
+  The missing entries for the CommScore and PhysScore is the same for each individual OSCE case.
+  
+  Over all of the OSCE cases, there are 153 students with no missing values, 39 with all missing values, and 7 with a combination of missing and not missing. From this, we will exclude all students that have any missing values as the number of a combination of missing is quite low. This leaves us with 153 students out of the original 199.
+  
+  Of these 46 that have missing scores, 17 are classified as URM, 28 as not URM, and 1 as unknown. So, we are not dropping a significant amount from one of the URM groups over the others comparative to their overall percentages.
+  
+The overall percentage of missing data varies for the different variables. 
+
+```{r}
+cols <- c("P1SprBates_CommScore", "P2FallRamos_CommScore", "P2FallPayne_CommScore", "P2SpringHyde_CommScore",  "P2SpringSnelling_CommScore")
+missing_stuff <- is.na(data[cols])
+table(apply(missing_stuff, 1, paste, collapse=""))
+all_osce_missing <- rowSums(is.na(data[cols])) >= 1
+table(data$URM[all_osce_missing], useNA= "ifany")
+```
+
+## Main Analysis
+
+# Conclusions
+
+Interpretations, discussion
+
+# References
+
+# Appendix
+
+<!-- footer -->
+
+---
+
+```{r, echo=FALSE, out.width='70%', fig.show='hold'}
+knitr::include_graphics(logo)
+```
+
