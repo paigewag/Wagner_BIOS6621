@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.23)  23 OCT 2026 22:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.10.23)  24 OCT 2026 12:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -621,104 +621,104 @@ Underfull \hbox (badness 10000) in paragraph at lines 641--642
 
  []
 
-[4] [5]
-Underfull \hbox (badness 10000) in paragraph at lines 839--840
+[4] [5{/Users/Paige/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/Users/Paige/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users/Paige/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/Users/Paige/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
+Underfull \hbox (badness 10000) in paragraph at lines 845--846
 
  []
 
 
-LaTeX Warning: Float too large for page by 225.39894pt on input line 841.
+LaTeX Warning: Float too large for page by 225.39894pt on input line 847.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 890--891
+Underfull \hbox (badness 10000) in paragraph at lines 896--897
 
  []
 
-<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-1.pdf, id=91, 459.7175pt x 316.18124pt>
+<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-1.pdf, id=97, 459.7175pt x 316.18124pt>
 File: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (type pdf)
 <use BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-1.pdf>
-Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-1.pdf  used on input line 897.
+Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-1.pdf  used on input line 903.
 (pdftex.def)             Requested size: 459.71637pt x 316.18047pt.
-<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-2.pdf, id=92, 463.7325pt x 316.18124pt>
+<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-2.pdf, id=98, 463.7325pt x 316.18124pt>
 File: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-2.pdf Graphic file (type pdf)
 <use BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-2.pdf>
-Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-2.pdf  used on input line 898.
+Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-2.pdf  used on input line 904.
 (pdftex.def)             Requested size: 463.73135pt x 316.18047pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 897--899
+Underfull \hbox (badness 10000) in paragraph at lines 903--905
 [][]
  []
 
-[6{/Users/Paige/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}]
-<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-1.pdf, id=98, 463.7325pt x 313.17pt>
+[6]
+<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-1.pdf, id=103, 463.7325pt x 313.17pt>
 File: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-1.pdf Graphic file (type pdf)
 <use BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-1.pdf>
-Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-1.pdf  used on input line 902.
+Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-1.pdf  used on input line 908.
 (pdftex.def)             Requested size: 463.73135pt x 313.16922pt.
-<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-2.pdf, id=99, 463.7325pt x 313.17pt>
+<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-2.pdf, id=104, 463.7325pt x 313.17pt>
 File: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-2.pdf Graphic file (type pdf)
 <use BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-2.pdf>
-Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-2.pdf  used on input line 903.
+Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-2.pdf  used on input line 909.
 (pdftex.def)             Requested size: 463.73135pt x 313.16922pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 902--904
+Underfull \hbox (badness 10000) in paragraph at lines 908--910
 [][]
  []
 
 [7 <./BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-1.pdf> <./BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-14-2.pdf>] [8 <./BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-1.pdf> <./BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-15-2.pdf>]
-<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-16-1.pdf, id=137, 453.695pt x 316.18124pt>
+<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-16-1.pdf, id=142, 453.695pt x 316.18124pt>
 File: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-16-1.pdf Graphic file (type pdf)
 <use BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-16-1.pdf>
-Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-16-1.pdf  used on input line 916.
+Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-16-1.pdf  used on input line 922.
 (pdftex.def)             Requested size: 453.6939pt x 316.18047pt.
-<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-1.pdf, id=138, 453.695pt x 316.18124pt>
+<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-1.pdf, id=143, 453.695pt x 316.18124pt>
 File: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-1.pdf Graphic file (type pdf)
 <use BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-1.pdf>
-Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-1.pdf  used on input line 923.
+Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-1.pdf  used on input line 929.
 (pdftex.def)             Requested size: 453.6939pt x 316.18047pt.
 [9 <./BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-16-1.pdf>]
-<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-2.pdf, id=153, 453.695pt x 316.18124pt>
+<BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-2.pdf, id=158, 453.695pt x 316.18124pt>
 File: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-2.pdf Graphic file (type pdf)
 <use BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-2.pdf>
-Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-2.pdf  used on input line 930.
+Package pdftex.def Info: BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-2.pdf  used on input line 936.
 (pdftex.def)             Requested size: 453.6939pt x 316.18047pt.
 [10 <./BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-1.pdf>] [11 <./BIOS6621_DataChecking_files/figure-latex/unnamed-chunk-17-2.pdf>]
-Overfull \hbox (592.47801pt too wide) detected at line 968
+Overfull \hbox (592.47801pt too wide) detected at line 974
 [][]\T1/lmtt/m/it/10 # From this point forward, any information on missing OSCE scores is going to be coded using only CommScore, as the missing data for each individual case is the same between CommScore and PhysExamScore.[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1036--1037
+Underfull \hbox (badness 10000) in paragraph at lines 1042--1043
+
+ []
+
+[12] [13] [14]
+Underfull \hbox (badness 10000) in paragraph at lines 1320--1321
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1121--1122
+LaTeX Warning: Float too large for page by 99.39894pt on input line 1322.
 
- []
-
-
-LaTeX Warning: Float too large for page by 99.39894pt on input line 1123.
-
-[12{/Users/Paige/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/Paige/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}] [13] [14] [15] [16] [17] [18] [19] [20] [21] [22] (./BIOS6621_DataChecking.aux)
+[15] [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] (./BIOS6621_DataChecking.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-09-09>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 14473 strings out of 469040
- 234677 string characters out of 5456443
- 735012 words of memory out of 5000000
- 43243 multiletter control sequences out of 15000+600000
+ 14481 strings out of 469040
+ 234732 string characters out of 5456443
+ 735079 words of memory out of 5000000
+ 43245 multiletter control sequences out of 15000+600000
  693091 words of font info for 88 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 88i,10n,93p,1494b,638s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on BIOS6621_DataChecking.pdf (22 pages, 323064 bytes).
+ 88i,10n,93p,1494b,640s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/Paige/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
+Output written on BIOS6621_DataChecking.pdf (25 pages, 355529 bytes).
 PDF statistics:
- 403 PDF objects out of 1000 (max. 8388607)
- 329 compressed objects within 4 object streams
- 87 named destinations out of 1000 (max. 500000)
+ 435 PDF objects out of 1000 (max. 8388607)
+ 352 compressed objects within 4 object streams
+ 92 named destinations out of 1000 (max. 500000)
  204 words of extra memory for PDF output out of 10000 (max. 10000000)
 
