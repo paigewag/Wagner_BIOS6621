@@ -1,15 +1,17 @@
 ---
-title: Data Checking Report
-author: Paige Wagner
- 
+title: "Data Checking Report"
+author: "Paige Wagner"
 output:
+  pdf_document:
+    toc: true
+    toc_depth: '2'
   html_document:
     highlight: espresso
-    number_sections: yes
+    number_sections: true
     theme: yeti
-    toc: yes
+    toc: true
     toc_depth: 2
-    toc_float: yes
+    toc_float: true
 ---
 
 ```{r, echo=FALSE}
