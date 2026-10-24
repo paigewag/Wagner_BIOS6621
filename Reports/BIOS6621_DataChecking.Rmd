@@ -2,9 +2,6 @@
 title: "Data Checking Report"
 author: "Paige Wagner"
 output:
-  pdf_document:
-    toc: true
-    toc_depth: '2'
   html_document:
     highlight: espresso
     number_sections: true
@@ -12,6 +9,9 @@ output:
     toc: true
     toc_depth: 2
     toc_float: true
+  pdf_document:
+    toc: true
+    toc_depth: '2'
 ---
 
 ```{r, echo=FALSE}
@@ -421,7 +421,14 @@ data %>%
 
 ```
 
-Comparing the averages of the non-missing OSCE scores the $7$ students that have some combination of missing OSCE scores to the overall averages for those OSCE scores will show if removing these $7$ students from the analysis will significantly change the data.
+Of the $7$ students that have a combination of missing and not for the OSCE scores, five are classified as URM and two are classified as not URM. This ratio (5:2) is quite different compared to the ratio of total sample (60:132), so the cause of this missingness will need to be further investigated. 
+
+```{r}
+c("Combination of Missing Classified as URM"=round(sum(data$URM[missing_osce_counts >=1 & missing_osce_counts<5]==1),3), "Combination of Missing Classified as Not-URM"=round(sum(data$URM[missing_osce_counts>=1 & missing_osce_counts<5]==0),3), "Combination of Missing Not Classified"=round(sum(data$URM[missing_osce_counts>=1 & missing_osce_counts<5]==3),3))
+```
+
+
+Comparing the averages of the non-missing OSCE scores the $7$ students that have some combination of missing OSCE scores to the overall averages for those OSCE scores will show if there might be an underlying reason as to why these $7$ students have missing scores.
 
 <details><summary> Research ID's and Corresponding Rows That Have 1-4 Missing OSCE Scores </summary>
 ```{r}
@@ -454,7 +461,10 @@ data[c(64, 100, 106, 114, 136, 144, 154), c("ResearchID", "P1SprBates_PhysExamSc
 ```
 </details>
 
-Out of the seven students that have some number of missing OSCE scores but not all missing, the deviation of the students non-missing OSCE scores from the mean are between $0$ and up to $2$ standard deviations away from the mean. So, there are not any extremes in these seven students, meaning if they are excluded from analysis the overall data would not be altered in an extreme way.
+Out of the seven students that have some number of missing OSCE scores but not all missing, the deviation of the students non-missing OSCE scores from the mean are between $0$ and up to $2$ standard deviations away from the mean. There are not any extremes in these seven students, so the non-missing OSCE scores would not suggest a reason as to why there are missing scores. 
+
+For example, if all $7$ of the students scored extremely low on the OSCE scores they have, there could be a possibility of those students un-enrolling in the program or being removed from the program. However, that is not the case here.
+
 ```{r}
 ids <- c(data$ResearchID[missing_osce_counts>=1 & missing_osce_counts<5])
 comm_and_phys_osce_cols <- c("P1SprBates_CommScore", "P2FallRamos_CommScore", "P2FallPayne_CommScore", "P2SpringHyde_CommScore", "P2SpringSnelling_CommScore", "P1SprBates_PhysExamScore", "P2FallRamos_PhysExamScore", "P2FallPayne_PhysExamScore", "P2SpringHyde_PhysExamScore", "P2SpringSnelling_PhysExamScore")
@@ -488,7 +498,7 @@ osce_sds_table <- osce_data_sds %>%
 osce_sds_table
 ```
 
-
+The analysis of the OSCE scores will be done on the non-missing entries for each OSCE case, and any pooling or averaging will take into account the difference in sample sizes between the OSCE cases. So, these $7$ students will not be removed and only the $39$ will all missing scores will be removed from the analysis.
   
 ## Clerkship Scores:
 
@@ -623,23 +633,9 @@ Why?: The CommScore and PhysExamScore are the two portions that are open to grad
 
 Why?: The assumed difficulty of the different cases is predicted to be the same, so averaging will give a better estimate
 
-3. Dropping 46 total missing entries
+3. Dropping 39 missing entries
 
-<details><summary> Other Missing Information Based on OSCE Missing </summary>
-```{r}
-# I'm not running with AAC or RCC because of the large missing. I am also not running with EC (no missing), MSK (not included in analysis), STEP1 (no missing), STEP2 (practically no missing)
-table(data$CPC_Final_Course_Grade[missing_osce_counts>=1], useNA= "ifany")
-table(data$HAC_Final_Course_Grade[missing_osce_counts>=1], useNA= "ifany")
-table(data$ICAC_Final_Course_Grade[missing_osce_counts>=1], useNA= "ifany")
-table(data$NC_Final_Course_Grade[missing_osce_counts>=1], useNA= "ifany")
-table(data$OBG_Final_Course_Grade[missing_osce_counts>=1], useNA= "ifany")
-table(data$OPC_Final_Course_Grade[missing_osce_counts>=1], useNA= "ifany")
-table(data$PC_Final_Course_Grade[missing_osce_counts>=1], useNA= "ifany")
-  
-```
-</details>
-
-Why?: If we drop all 46 students that have missing OSCE scores from the entire data set, we will be losing data for all of the other variables we are planning on analyzing. So, we should instead drop the 46 missing entries so that data is not unnecessarily thrown out. By dropping all 46, we are keeping the sample size the same for each OSCE, which will allow us to pool to means and variances of the different cases.
+Why?: If we drop all 46 students that have missing OSCE scores from the analysis instead of the 39 that all all missing entries, we will be losing data for the other OSCE scores that the 7 students have. So, we should instead drop the 39 missing entries so that data is not unnecessarily thrown out. The sample sizes for the different OSCE cases will not be the same necessarily, so pooling and averaging in the analysis will take into account the differences in sample size.
     
 ## Changes to Clerkship Scores:
 1. Ignoring EC and MSK Final Grade columns
@@ -674,14 +670,14 @@ Why?: There is only one missing entry, so this will decrease the sample size fro
 
 <details><summary> Removing Missing Entries for OSCE Scores </summary>
 ```{r}
+
 osce_data_cleaned <- osce_data %>%
-  drop_na(P1SprBates_CommScore, P1SprBates_PhysExamScore, P2FallRamos_CommScore, P2FallRamos_PhysExamScore, P2FallPayne_CommScore, P2FallPayne_PhysExamScore, P2SpringHyde_CommScore, P2SpringHyde_PhysExamScore, P2SpringSnelling_CommScore, P2SpringSnelling_PhysExamScore)
-nrow(osce_data_cleaned) # This should return as 199-46=153
-  
+  filter(!if_all(P1SprBates_CommScore:P2SpringSnelling_PhysExamScore, is.na))
+nrow(osce_data_cleaned) # This should return as 199-39=160
 ```
 </details>
 
-After removing the missing entries on the OSCE data, we are left with $n=$ `r nrow(osce_data_cleaned)` for further analysis on OSCE scores.
+After removing the missing entries on the OSCE data, we are left with `r nrow(osce_data_cleaned)` students for further analysis on OSCE scores. However, there are $7$ students that have one or more missing OSCE score left in this $160$, so the sample sizes for each OSCE case are different. Further investigation should be done to confirm that these $7$ students are truly missing scores, or if there was poor tracking involved.
 
 
 ## Clerkship Data:
