@@ -3,7 +3,7 @@
 
 ### Background
 
-Contain the background information for the analysis, emails, and notes:
+*Contain the background information for the analysis, emails, and notes:*
 
   Guth CIDA Questions and Answers
   
@@ -11,11 +11,11 @@ Contain the background information for the analysis, emails, and notes:
 
 ### Code
 
-Contains all R scripts for this project
+*Contains all R scripts for this project:*
 
 ### Reports
 
-Contains all output, rmarkdown files, and reports
+*Contains all output, rmarkdown files, and reports:*
 
   Homework_Report_01 and Homework_Report_01_redo
     
@@ -36,12 +36,12 @@ Contains all output, rmarkdown files, and reports
 
 ### DataProcessed
 
-Contains the processed data used for analysis
+*Contains the processed data used for analysis:*
 
 
 ### DataRaw
 
-Contain all raw data provided by investigators
+*Contain all raw data provided by investigators:*
 
   Homework_Report_01 Data lead-iq
   
