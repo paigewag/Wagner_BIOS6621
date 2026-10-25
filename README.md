@@ -13,6 +13,18 @@
 
 **Contains all R scripts for this project:**
 
+  Homework_Report_01 and Homework_Report_01_redo
+  
+    html
+    
+  R-assingment-script
+  
+    .r and html
+    
+  BIOS6621_DataChecking
+  
+    log
+
 ### Reports
 
 **Contains all output, rmarkdown files, and reports:**
@@ -23,11 +35,11 @@
   
   R-assignment-script
   
-    .r, html, pdf, rmd
+    pdf and rmd
     
   BIOS6621_DataChecking
   
-    html, log, pdf, rmd
+    html, pdf, rmd
     
   BIOS6621_SOW
     
