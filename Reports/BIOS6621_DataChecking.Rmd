@@ -60,6 +60,11 @@ data |>
     missing = "always",
     missing_stat = "{N_miss} ({p_miss}%)"
   )
+data <- data%>%
+  mutate(gender = recode(gender,
+                         "F"= 1,
+                         "M"= 2,
+                         "D"= 0)) # Re-coding gender as a numerical value will make analysis of the data much easier. Nothing is technically changing to the overall data. This is officially explained in section 3
 ```
 </details>
 
@@ -89,6 +94,8 @@ Since we want to identify if there is bias, it would be more valuable to look at
 We are also going to summarize the average USMLE scores based on the URM classification and the average of the clerkship final grades based on the URM classification.
 
 # Data Irregularities
+
+Before any further exploration of the data, there is one change that has been made to the overall data set. For the gender column, female is "F", male is "M", and unspecified is "D". The only change that has been made to the data at this point is changing female to 1, male to 2, and unspecified to 0. This will make further analysis much easier to complete. The change will not be mentioned anywhere else in this report.
 
 ## Definition and Classification of URM:
 
@@ -122,6 +129,8 @@ urm_data
 </details>
 
 ## OSCE Data:
+  
+  From the inital meeting, it was discussed that each OSCE has a case name. In the middle of the OSCE cases is a column titled `P1FallBodySys_PhysExamScore`. There are no other columns or scores associated with this column. Since it is not named as an OSCE case and doesn't appear anywhere else in the data, it will not be included in any of the OSCE data or analyses.
   
   When we are looking at the OSCE scores, we are only going to compare the CommScores and the PhysExamScores as these are the scores that may hold bias.
 
@@ -239,6 +248,33 @@ osce_pooled_var_table <- osce_pooled_var %>%
 osce_pooled_var_table
 ```
 
+Using a Q-Q Plot, we can see if the averaged CommScores and PhysExamScores across all five OSCE cases follow a normal distribution. From the plots, we can see that both the averaged CommScores and PhysExamScores are close to normal but left skewed. This will later influence the analysis.
+
+Note: These plots were created using two new variables. The justification for adding the two new variables will be provided in section 5.2 of the conclusions.
+<details><summary> Code for Temporary Addition of Columns </summary>
+```{r, echo=TRUE}
+# I am temporarily creating a new df with the CommScore_avg and PhysExamScore_avg columns added
+# I won't officially do this until the end of the report
+# Explanation is in section 5.2.2
+osce_data_avgs <- osce_data %>%
+  mutate(
+    CommScore_avgs = na_if(rowMeans(pick(P1SprBates_CommScore, P2FallRamos_CommScore, P2FallPayne_CommScore, P2SpringHyde_CommScore, P2SpringSnelling_CommScore), na.rm= TRUE), NaN
+      ),
+    PhysExamScore_avgs = na_if(rowMeans(pick(P1SprBates_PhysExamScore, P2FallRamos_PhysExamScore, P2FallPayne_PhysExamScore, P2SpringHyde_PhysExamScore, P2SpringSnelling_PhysExamScore), na.rm= TRUE), NaN)
+)
+```
+</details>
+```{r}
+ggplot(osce_data_avgs, aes(sample = CommScore_avgs )) +
+  stat_qq() +
+  stat_qq_line(color = "royalblue3", linewidth = 1) +
+  labs(title = "CommScore Averages Normality Check Using Q-Q Plot", x = "Theoretical", y = "Sample") 
+ggplot(osce_data_avgs, aes(sample = PhysExamScore_avgs )) +
+  stat_qq() +
+  stat_qq_line(color = "royalblue3", linewidth = 1) +
+  labs(title = "PhysExamScore Averages Normality Check Using Q-Q Plot", x = "Theoretical", y = "Sample") 
+```
+
 
 ## Clerkship Scores:
 
@@ -267,11 +303,11 @@ clerk_data <- data %>%
 tbl_summary(clerk_data) # The MSK_Final looks weird, but the first row is the number that passed, and the second row is missing. There are no other scores besides passing.
 ```
 
-First thing to note is the `AAC_Final_Course_Grade` and `RCC_Final_Course_Grade` columns as they both have $179$ missing entries. For the remainder of the data exploration on the clerkship scores, we will ignore these as they will be covered in the missing section.
+First thing to note is the `AAC_Final_Course_Grade` and `RCC_Final_Course_Grade` columns as they both have $179$ missing entries. For the remainder of the data exploration on the clerkship scores, we will ignore these for the moment as they will be covered in the missing section.
 
 Both `EC_Final_Course_Grade` and `MSK_Final_Course_Grade` contain only passing grades, all entries are $1$, with no missing entries for `EC_Final_Course_Grade` and $34$ missing entries for `MSK_Final_Course_Grade`. Including these in the analysis will not provide any useful information, as all students scored the exact same in those courses, so we will not include them in the analysis of the clerkship scores.
 
-Looking at `OBG_Final_Course_Grade`, there is only one $9$ recorded, and this is the only $9$ for all of the final grades. Since $9$ is pass with remediation, this student technically passed the course. So, we will include them in the pass group, $1$, for the analysis.
+Looking at `OBG_Final_Course_Grade`, there is only one $9$ recorded, and this is the only $9$ for all of the final grades. Since $9$ is pass with remediation, this student technically passed the course. So, we will include them in the pass group, $1$, for the analysis. (Longer explanation as to the reasoning behind this choice is in section 5.3.2)
 
 ## USMLE Scores:
 
@@ -369,6 +405,17 @@ ggplot(usmle_data, aes(x= STEP2CK_ExamScore, fill= factor(URM)))+
   )
 ```
 
+To check the normality of the two exam score distributions, I will use a Q-Q plot. As we can see, the distribution of both STEP1 and STEP2 are close to normal with slightly heavier tails. This will be important for later on analysis.
+```{r}
+ggplot(usmle_data, aes(sample = STEP1_ExamScore )) +
+  stat_qq() +
+  stat_qq_line(color = "royalblue3", linewidth = 1) +
+  labs(title = "STEP1 Normality Check Using Q-Q Plot", x = "Theoretical", y = "Sample") 
+ggplot(usmle_data, aes(sample = STEP2CK_ExamScore )) +
+  stat_qq() +
+  stat_qq_line(color = "royalblue3", linewidth = 1) +
+  labs(title = "STEP2 Normality Check Using Q-Q Plot", x = "Theoretical", y = "Sample")
+```
 
 
 # Missing Data
@@ -414,14 +461,14 @@ c("Percentage of Total Missing Classified as URM"= round(sum(data$URM[missing_os
 
 ```{r}
 table(data$gender[missing_osce_counts>=1], useNA="ifany")
-c("Percentage of Total Missing, Female"= round(25/46, 3), "Percentage of Total Missing, Male"= round(21/46, 3))
+c("Percentage of Total Missing, Female"= round(sum(data$gender[missing_osce_counts>=1]==1)/sum(missing_osce_counts>=1), 3), "Percentage of Total Missing, Male"= round(sum(data$gender[missing_osce_counts>=1]==2)/sum(missing_osce_counts>=1), 3))
 data %>%
   select(gender) %>%
   tbl_summary(statistic= all_categorical()~"{n}, ({p}%)")
 
 ```
 
-Of the $7$ students that have a combination of missing and not for the OSCE scores, five are classified as URM and two are classified as not URM. This ratio (5:2) is quite different compared to the ratio of total sample (60:132), so the cause of this missingness will need to be further investigated. 
+Of the $7$ students that have a combination of missing and not for the OSCE scores, five are classified as URM and two are classified as not URM. This ratio $(5:2)$ is quite different compared to the ratio of total sample $(60:132)$, so the cause of this missingness will need to be further investigated. 
 
 ```{r}
 c("Combination of Missing Classified as URM"=round(sum(data$URM[missing_osce_counts >=1 & missing_osce_counts<5]==1),3), "Combination of Missing Classified as Not-URM"=round(sum(data$URM[missing_osce_counts>=1 & missing_osce_counts<5]==0),3), "Combination of Missing Not Classified"=round(sum(data$URM[missing_osce_counts>=1 & missing_osce_counts<5]==3),3))
@@ -461,7 +508,7 @@ data[c(64, 100, 106, 114, 136, 144, 154), c("ResearchID", "P1SprBates_PhysExamSc
 ```
 </details>
 
-Out of the seven students that have some number of missing OSCE scores but not all missing, the deviation of the students non-missing OSCE scores from the mean are between $0$ and up to $2$ standard deviations away from the mean. There are not any extremes in these seven students, so the non-missing OSCE scores would not suggest a reason as to why there are missing scores. 
+Out of the seven students that have some number of missing OSCE scores but not all missing, the deviation of the students non-missing OSCE scores from the mean are between $0$ and up to ~$2$ standard deviations away from the mean. There are not any extremes in these seven students, so the non-missing OSCE scores would not suggest a reason as to why there are missing scores. 
 
 For example, if all $7$ of the students scored extremely low on the OSCE scores they have, there could be a possibility of those students un-enrolling in the program or being removed from the program. However, that is not the case here.
 
@@ -498,7 +545,7 @@ osce_sds_table <- osce_data_sds %>%
 osce_sds_table
 ```
 
-The analysis of the OSCE scores will be done on the non-missing entries for each OSCE case, and any pooling or averaging will take into account the difference in sample sizes between the OSCE cases. So, these $7$ students will not be removed and only the $39$ will all missing scores will be removed from the analysis.
+The analysis of the OSCE scores will be done on the non-missing entries for each OSCE case, and any pooling or averaging will take into account the difference in sample sizes between the OSCE cases. So, these $7$ students will not be removed and only the $39$ with all missing scores will be removed from the analysis.
   
 ## Clerkship Scores:
 
@@ -569,7 +616,13 @@ c("Percentage of Total Missing Classified as URM"= round(sum(data$URM[missing_cl
   "Percentage of Total Missing Not Classified"= round(sum(data$URM[missing_clerk_counts>=1]==3)/sum(missing_clerk_counts>=1), 3))
 ```
 
-Since the majority of the missing entries are resulting from the `CPC_Final_Course_Grade` (the column that might be able to combine with `AAC_Final_Course_Grade` or `RCC_Final_Course_Grade`), we will ignore that column during the analysis as we do not have the full information on this course and the percent that is missing is almost $25\%$ of all the data. 
+We can also see that the students with missing final grades are equally female and male, with the one student as unspecified. So, gender is not an obvious reason as to why the students have missing final grades.
+
+```{r}
+c("Missing Female"=round(sum(data$gender[missing_clerk_counts>=1]==1),3), "Missing Male"=round(sum(data$gender[missing_clerk_counts>=1]==2),3), "Missing Unspecified"=round(sum(data$gender[missing_clerk_counts>=1]==0),3))
+```
+
+
 <details><summary> Overlapping Missing Clerk Scores </summary>
 ```{r}
 # XXX_miss is the number of missing cells in XXX
@@ -618,41 +671,45 @@ Thankfully, the USMLE scores have almost no missing entries. However, there is o
 ## Changes to Overall Data:
 1. For race and ethnicity, we are only using the additional_race and additional_ethnicity columns
 
-Why?: The other columns that contain data for race and ethnicity contain little to no useful information
+Why?: The other columns that contain data for race and ethnicity contain little to no useful information.
 
 2. We are using URM instead of URM_AAMC
 
-Why?: URM flags all students as underrepresented in medicine that URM_AAMC does, except URM flags for "Asian Vietnamese" and URM_AAMC does not. URM will be a better indicator for a possible bias
+Why?: URM flags all students as underrepresented in medicine that URM_AAMC does, except URM flags for "Asian Vietnamese" and URM_AAMC does not. URM will be a better indicator for grading bias.
 
 ## Changes to OSCE Data:
 1. Only looking at CommScore and PhysExamScore
 
-Why?: The CommScore and PhysExamScore are the two portions that are open to grading bias
+Why?: The CommScore and PhysExamScore are the two portions that are open to grading bias. This was decided in the initial meeting with the investigator.
 
-2. Averaging CommScore and PhysExamScore across the different OSCE cases
+2. Averaging CommScore and PhysExamScore across the different OSCE cases, creating two new columns
 
-Why?: The assumed difficulty of the different cases is predicted to be the same, so averaging will give a better estimate
+Why?: The assumed difficulty of the different OSCE cases is predicted to be the same, so averaging will give a better estimate of how each student did on the individual portions of the OSCEs. The variances and the standard deviations of the individual OSCE cases are close to equal, so averaging across the cases will not affect the overall distribution of the scores for each portion. This also provides a solution, to some extent, as to how to handle the 7 students with combinations of missing scores.
 
 3. Dropping 39 missing entries
 
 Why?: If we drop all 46 students that have missing OSCE scores from the analysis instead of the 39 that all all missing entries, we will be losing data for the other OSCE scores that the 7 students have. So, we should instead drop the 39 missing entries so that data is not unnecessarily thrown out. The sample sizes for the different OSCE cases will not be the same necessarily, so pooling and averaging in the analysis will take into account the differences in sample size.
+
+4. Completely disregard `P1FallBodySys_PhysExamScore`
+
+Why?: Despite being in the middle of the OSCE columns, this "FallBodySys" exam is not named after an OSCE case, so it will not be considered an OSCE score. Unless further information on this exam is obtained, it will appear nowhere in the analyses of any variables. 
     
 ## Changes to Clerkship Scores:
 1. Ignoring EC and MSK Final Grade columns
 
-Why?: All students passed these courses with no difference in performance
+Why?: All students passed these courses with no difference in performance. Analysis on a variable with a variance of zero is uninformative, providing no way to analyze differences between students.
     
 2. Combining "Pass" and "Pass with Remediation"
 
-Why?: Pass with remediation only occurs once in the entire dataset, and this student still passed the course
+Why?: Pass with remediation only occurs once in the entire dataset, and this student still passed the course. As discussed in the initial meeting, this is because students must pass all classes to proceed through their degree. Keeping this one entry separate would not provide any useful information as analysis cannot be done on a single number or category. Combining the two categories will also result in a small change (if any) to the overall analysis due to the large sample size ($n=153-192$ for clerkship data, depending on the specific course. This is shown and explained in section 6.2). This decision, and further justification for it, will show up in the analysis methods of the clerkship grades.
 
-3. Ignoring AAC, RCC, and CPC columns (Unless there is new information on the course names possibly changing)
+3. Ignoring AAC and RCC columns (Unless there is new information on the course names possibly changing)
 
-Why?: There are only 20 entries for each AAC and RCC with the remaining entries as missing. Comparing to CPC suggests that there was a course name change as the 20 entries for AAC and RCC slot perfectly into the missing entries of CPC.If there is a verified course name change, we can merge the columns together. Otherwise, removing these columns from the analysis will significantly increase the sample size after accounting for missing data, as these three columns have the highest rate of missingness. This could possibly result in a biased analysis, however this is unlikely considering the courses have similar spreads of scores.
+Why?: There are only $20$ entries for each AAC and RCC with the remaining entries as missing. Comparing to CPC suggests that there was a course name change as the $20$ entries for AAC and RCC slot perfectly into the missing entries of CPC. If there is a verified course name change, we can merge the columns together. Otherwise, removing these columns from the analysis will should not significantly alter the analysis since a sample size of $n=20$ is not enough to show a true difference. This leave a total of $7$ clerkships to analyze.
 
-4. Dropping missing entries for each column
+4. Ignoring missing entries for each column
 
-Why?: From the initial meeting, the reason for missing entries for the courses and the final grades is due to poor tracking. The percentage of missing for each course is consistent with this assumption as the majority of the missing percentages for the courses are ~$20\%-30\%$.  
+Why?: Instead of removing the rows that have any missing scores in the clerkship columns, we will just ignore the missing entries for each individual column. None of the students are missing entries for all clerkships, so none of the rows will be removed. However, the sample size $n$ for each clerkship will change.
 
     
 ## Changes to USMLE Scores:
@@ -660,53 +717,60 @@ Why?: From the initial meeting, the reason for missing entries for the courses a
 
 Why?: Averaging with one less data point from a sample size that is already large will not alter the analysis
 
-2. Removing missing entry for further analysis
+2. Ignore missing entry for further analysis
 
-Why?: There is only one missing entry, so this will decrease the sample size from $n=199$ to $n=198$ which result in insignificant change (if any) to the analysis.
+Why?: There is only one missing entry, so this will decrease the sample size from $n=199$ to $n=198$, for the STEP2 scores, which will result in insignificant change (if any) to the analysis.
 
 # Final Cleaned Data Set
 
 ## OSCE Data:
 
-<details><summary> Removing Missing Entries for OSCE Scores </summary>
+<details><summary> Removing Missing Entries for OSCE Scores and Creating New Averaged Columns</summary>
 ```{r}
 
 osce_data_cleaned <- osce_data %>%
-  filter(!if_all(P1SprBates_CommScore:P2SpringSnelling_PhysExamScore, is.na))
-nrow(osce_data_cleaned) # This should return as 199-39=160
+  filter(!if_all(P1SprBates_CommScore:P2SpringSnelling_PhysExamScore, is.na)) %>%
+  mutate(CommScore_avgs = na_if(rowMeans(pick(P1SprBates_CommScore, P2FallRamos_CommScore, P2FallPayne_CommScore, P2SpringHyde_CommScore, P2SpringSnelling_CommScore), na.rm= TRUE), NaN
+      ),
+    PhysExamScore_avgs = na_if(rowMeans(pick(P1SprBates_PhysExamScore, P2FallRamos_PhysExamScore, P2FallPayne_PhysExamScore, P2SpringHyde_PhysExamScore, P2SpringSnelling_PhysExamScore), na.rm= TRUE), NaN)
+)# This is the same code as "Code for Temporary Addition of Columns" 3.2
+nrow(osce_data_cleaned)  # This should return as 199-39=160
 ```
 </details>
 
 After removing the missing entries on the OSCE data, we are left with `r nrow(osce_data_cleaned)` students for further analysis on OSCE scores. However, there are $7$ students that have one or more missing OSCE score left in this $160$, so the sample sizes for each OSCE case are different. Further investigation should be done to confirm that these $7$ students are truly missing scores, or if there was poor tracking involved.
 
+Two new columns were added to the OSCE data that contain the average scores for each student across all OSCE cases for the Comm and PhysExam portions of the OSCEs. This was done with the two assumptions being equal variance across the cases and independence of the each students scores for each OSCE case.
+
 
 ## Clerkship Data:
 
-<details><summary> Removing Missing Entries for Clerkship Scores and Combining "Pass" and "Pass with Remediation"</summary>
+<details><summary> Combining "Pass" and "Pass with Remediation"</summary>
 ```{r}
 clerk_data_cleaned <- clerk_data%>%
-  drop_na(HAC_Final_Course_Grade, ICAC_Final_Course_Grade, NC_Final_Course_Grade, OBG_Final_Course_Grade, OPC_Final_Course_Grade, PC_Final_Course_Grade) %>%
 ## This will look at the specified columns and find and 9's, then it will change them to 1's. This will turn "Pass with Remediation" to "Pass"
-  mutate(across(c(HAC_Final_Course_Grade, ICAC_Final_Course_Grade, NC_Final_Course_Grade, OBG_Final_Course_Grade, OPC_Final_Course_Grade, PC_Final_Course_Grade), 
+  mutate(across(c(CPC_Final_Course_Grade, HAC_Final_Course_Grade, ICAC_Final_Course_Grade, NC_Final_Course_Grade, OBG_Final_Course_Grade, OPC_Final_Course_Grade, PC_Final_Course_Grade), 
                 ~ ifelse(.x == 9, 1, .x)))
 nrow(clerk_data_cleaned) 
+c("CPC rows"= sum(!is.na(clerk_data_cleaned$CPC_Final_Course_Grade)), "HAC rows"= sum(!is.na(clerk_data_cleaned$HAC_Final_Course_Grade)), "ICAC rows"= sum(!is.na(clerk_data_cleaned$ICAC_Final_Course_Grade)), "NC rows"= sum(!is.na(clerk_data_cleaned$NC_Final_Course_Grade)), "OBG rows"= sum(!is.na(clerk_data_cleaned$OBG_Final_Course_Grade)), "OPC rows"= sum(!is.na(clerk_data_cleaned$OPC_Final_Course_Grade)), "PC rows"= sum(!is.na(clerk_data_cleaned$PC_Final_Course_Grade)))
+
+
 ```
 </details>
 
-After removing the missing entries for all of the course final grades, we are left with $n=$ `r nrow(clerk_data_cleaned)` for further analysis on the clerkship scores. This is less than half the size of the original sample size. This is because there students missing grades for some courses but not others, with the reason for the missing data being poor recording, as discussed in the initial meeting.
+The only thing that was altered in the clerkship data was changing the one "Pass with Remediation", $9$, to "Pass", $1$. The remaining sample sizes for the different clerkships are between $153-192$ with most in the $170$'s. This means each one dropped between $7-46$ students that had missing entries.
 
 
 ## USMLE Data:
 
-<details><summary> Removing Missing Entry for USMLE Scores </summary>
+<details><summary> No Change to Data for USMLE Scores </summary>
 ```{r}
-usmle_data_cleaned <- usmle_data %>%
-  drop_na(STEP2CK_ExamScore)
+usmle_data_cleaned <- usmle_data 
 nrow(usmle_data_cleaned)
 ```
 </details>
 
-After removing the missing entry for the USMLE scores, we are left with $n=$ `r nrow(usmle_data_cleaned)` for further analysis on USMLE scores.
+No changes are being made to the USMLE data. The missing entry for STEP2 will be ignored in analysis.
 
 # Appendix
 
